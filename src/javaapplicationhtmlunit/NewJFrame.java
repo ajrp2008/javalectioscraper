@@ -5,8 +5,10 @@
  */
 package javaapplicationhtmlunit;
 
+import java.util.Comparator;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableModel;
+import javax.swing.table.TableRowSorter;
 
 /**
  *
@@ -16,7 +18,6 @@ public class NewJFrame extends javax.swing.JFrame {
 
     DefaultTableModel tableModel;
 
-    
     /**
      * Creates new form NewJFrame
      */
@@ -47,6 +48,7 @@ public class NewJFrame extends javax.swing.JFrame {
             }
         });
 
+        jTable1.setAutoCreateRowSorter(true);
         jTable1.setModel(new javax.swing.table.DefaultTableModel(
             new Object [][] {
                 {null, null, null, null},
@@ -90,30 +92,35 @@ public class NewJFrame extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void jButton1ActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_jButton1ActionPerformed
-        
+
         jButton1.setEnabled(false);
         jLabel1.setText("forbinder til Lectio.dk vent veligst ...");
+
+                        
+                while (tableModel.getRowCount() > 0) {
+                    tableModel.removeRow(0);
+                }
+
+
         
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
                 jLabel1.setText("data hentet");
-                
-                while(tableModel.getRowCount() > 0){
-                    tableModel.removeRow(0);
-                }
+
+             
                 
                 JavaApplicationHTMLUnit j = new JavaApplicationHTMLUnit();
-                
+
                 Object[][] elevData = j.getElevDataList();
-                
+
                 for (int elev = 0; elev < elevData.length; elev++) {
                     tableModel.addRow(elevData[elev]);
                 }
-                
+
                 jButton1.setEnabled(true);
             }
         });
-        
+
 
     }//GEN-LAST:event_jButton1ActionPerformed
 
@@ -147,16 +154,17 @@ public class NewJFrame extends javax.swing.JFrame {
         /* Create and display the form */
         java.awt.EventQueue.invokeLater(new Runnable() {
             public void run() {
-                
+
                 NewJFrame nj = new NewJFrame();
 
-                                
                 String col[] = {"Navn", "alm. fravær", "skr. fravær"};
-                
-                nj.tableModel = new DefaultTableModel(col, 0);
+
+                nj.tableModel = new NewClassMyTModel(col, 0);
+   
                 nj.jTable1.setModel(nj.tableModel);
+
                 nj.setVisible(true);
-                
+
             }
         });
     }
