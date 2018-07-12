@@ -61,11 +61,13 @@ public class JavaApplicationHTMLUnit {
             HtmlTable table = page.getHtmlElementById("s_m_Content_Content_fravaertbl");
             int antalElever = table.getRowCount() - 4;
 
-            Object[][] listElever = new Object[antalElever][2];
+            Object[][] listElever = new Object[antalElever][3];
 
             for (int e = 0; e < antalElever; e++) {
                 listElever[e][0] = table.getCellAt(e + 3, 1).asText();
                 listElever[e][1] = Double.parseDouble(table.getCellAt(e + 3, 2).asText().replace(",", ".").replace("%", ""));
+                listElever[e][2] = Double.parseDouble(table.getCellAt(e + 3, 8).asText().replace(",", ".").replace("%", ""));
+
             }
 
             return listElever;
