@@ -10,8 +10,8 @@ package javaapplicationhtmlunit.data;
  * @author andersjuulr.petersen
  */
 public class ElevData {
-    public static String StatusOk               = "ingen bemærkninger";
-    public static String StatusFørTalkAlmOgSkr  = "skal ";
+    //public static String StatusOk               = "ingen bemærkninger";
+    //public static String StatusFørTalkAlmOgSkr  = "skal ";
     
     
     public String navn      = "";
@@ -19,7 +19,7 @@ public class ElevData {
     public double skrF      = 0;
     public int timerF       = 0;
     public int timerIAlt    = 0;
-    public String status    = StatusOk;
+    public Status status    = new StatusNone();
     
     public ElevData(String navn, double almF, double skrF, int timerF, int timerIAlt){
         this.navn       = navn;

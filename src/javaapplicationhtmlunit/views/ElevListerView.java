@@ -9,6 +9,7 @@ import javaapplicationhtmlunit.htmlUnitUtils.ElevListerHtmlUnit;
 import java.awt.Color;
 import java.awt.Component;
 import javaapplicationhtmlunit.data.ElevData;
+import javaapplicationhtmlunit.data.StatusNone;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -158,7 +159,7 @@ public class ElevListerView extends javax.swing.JFrame {
 
                 int row = 0;
                 for (ElevData ed : elevListerHtmlUnit.elevArrayListe) {
-                    Object[] rowList = {ed.navn, ed.almF, ed.skrF, ed.status};
+                    Object[] rowList = {ed.navn, ed.almF, ed.skrF, ed.status.getStatus()};
                     tableModel.addRow(rowList);
                 }
 
@@ -181,8 +182,7 @@ public class ElevListerView extends javax.swing.JFrame {
         int row = 0;
         for (ElevData ed : elevListerHtmlUnit.elevArrayListe) {
             if (ed.almF > 10.0 || ed.skrF > 15.0) {
-                System.out.println(ed.navn + " " + ed.skrF + " " + ed.almF);
-                Object[] rowList = {ed.navn, ed.almF, ed.skrF, ed.status};
+                Object[] rowList = {ed.navn, ed.almF, ed.skrF, ed.status.getStatus()};
                 tableModel.addRow(rowList);
                 //this.klasseListeTabel.setBackground(Color.red);
             }
@@ -202,7 +202,7 @@ public class ElevListerView extends javax.swing.JFrame {
 
         int row = 0;
         for (ElevData ed : elevListerHtmlUnit.elevArrayListe) {
-            Object[] rowList = {ed.navn, ed.almF, ed.skrF, ed.status};
+            Object[] rowList = {ed.navn, ed.almF, ed.skrF, ed.status.getStatus()};
             tableModel.addRow(rowList);
         }
     }//GEN-LAST:event_seAlleButtonActionPerformed
@@ -229,7 +229,8 @@ public class ElevListerView extends javax.swing.JFrame {
     }
     
     private void setWorkflowButtonState(ElevData elev){
-        if(elev != null && elev.status.compareTo(ElevData.StatusOk) == 0 && (elev.almF > 10 || elev.skrF > 15)){
+
+        if(elev != null && (elev.status instanceof StatusNone) && (elev.almF > 10 || elev.skrF > 15)){
             this.buttonWorkflow.setText("Start Workflow!");
             this.buttonWorkflow.setEnabled(true);
         }else{
