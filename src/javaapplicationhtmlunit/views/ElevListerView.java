@@ -3,10 +3,12 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package javaapplicationhtmlunit;
+package javaapplicationhtmlunit.views;
 
+import javaapplicationhtmlunit.htmlUnitUtils.ElevListerHtmlUnit;
 import java.awt.Color;
 import java.awt.Component;
+import javaapplicationhtmlunit.data.ElevData;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -43,7 +45,7 @@ public class ElevListerView extends javax.swing.JFrame {
         jLabel1 = new javax.swing.JLabel();
         seKritiskButton = new javax.swing.JButton();
         seAlleButton = new javax.swing.JButton();
-        jButton1 = new javax.swing.JButton();
+        buttonWorkflow = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -94,7 +96,7 @@ public class ElevListerView extends javax.swing.JFrame {
             }
         });
 
-        jButton1.setText("Procedure step! ");
+        buttonWorkflow.setText("Procedure step! ");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -114,7 +116,7 @@ public class ElevListerView extends javax.swing.JFrame {
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(seKritiskButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 306, Short.MAX_VALUE)
-                        .addComponent(jButton1)))
+                        .addComponent(buttonWorkflow)))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -125,7 +127,7 @@ public class ElevListerView extends javax.swing.JFrame {
                     .addComponent(hentKlasseData)
                     .addComponent(seKritiskButton)
                     .addComponent(seAlleButton)
-                    .addComponent(jButton1))
+                    .addComponent(buttonWorkflow))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                 .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addGap(23, 23, 23)
@@ -137,7 +139,9 @@ public class ElevListerView extends javax.swing.JFrame {
     }// </editor-fold>//GEN-END:initComponents
 
     private void hentKlasseDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hentKlasseDataActionPerformed
-
+        
+        
+        
         hentKlasseData.setEnabled(false);
         jLabel1.setText("forbinder til Lectio.dk vent veligst ...");
 
@@ -154,7 +158,7 @@ public class ElevListerView extends javax.swing.JFrame {
 
                 int row = 0;
                 for (ElevData ed : elevListerHtmlUnit.elevArrayListe) {
-                    Object[] rowList = {ed.navn, ed.almF, ed.skrF};
+                    Object[] rowList = {ed.navn, ed.almF, ed.skrF, ed.status};
                     tableModel.addRow(rowList);
                 }
 
@@ -176,9 +180,9 @@ public class ElevListerView extends javax.swing.JFrame {
 
         int row = 0;
         for (ElevData ed : elevListerHtmlUnit.elevArrayListe) {
-            if (ed.skrF > 10.0 || ed.almF > 15.0) {
+            if (ed.almF > 10.0 || ed.skrF > 15.0) {
                 System.out.println(ed.navn + " " + ed.skrF + " " + ed.almF);
-                Object[] rowList = {ed.navn, ed.almF, ed.skrF};
+                Object[] rowList = {ed.navn, ed.almF, ed.skrF, ed.status};
                 tableModel.addRow(rowList);
                 //this.klasseListeTabel.setBackground(Color.red);
             }
@@ -198,7 +202,7 @@ public class ElevListerView extends javax.swing.JFrame {
 
         int row = 0;
         for (ElevData ed : elevListerHtmlUnit.elevArrayListe) {
-            Object[] rowList = {ed.navn, ed.almF, ed.skrF};
+            Object[] rowList = {ed.navn, ed.almF, ed.skrF, ed.status};
             tableModel.addRow(rowList);
         }
     }//GEN-LAST:event_seAlleButtonActionPerformed
@@ -218,8 +222,23 @@ public class ElevListerView extends javax.swing.JFrame {
 
         ElevData elev = elevListerHtmlUnit.getElevFromName(navn);
         
-        jLabel1.setText(" *** " + elev.navn + " ***                  STATUS: ok" );
+        jLabel1.setText("<html> NAVN:   " + elev.navn + "<br>STATUS: " + elev.status + "</html>" );
+        
+        setWorkflowButtonState(elev);       
+        
     }
+    
+    private void setWorkflowButtonState(ElevData elev){
+        if(elev != null && elev.status.compareTo(ElevData.StatusOk) == 0 && (elev.almF > 10 || elev.skrF > 15)){
+            this.buttonWorkflow.setText("Start Workflow!");
+            this.buttonWorkflow.setEnabled(true);
+        }else{
+            this.buttonWorkflow.setText("status ok");
+            this.buttonWorkflow.setEnabled(false);
+        }
+    }
+    
+    
     
 
     /**
@@ -256,7 +275,7 @@ public class ElevListerView extends javax.swing.JFrame {
 
                 ElevListerView nj = new ElevListerView();
 
-                String col[] = {"Navn", "Alm.", "Skr.", "Talk 1", "Stat 1", "Warning 1", "Talk 2", "Status 2", "Warning 2"};
+                String col[] = {"Navn", "Alm.", "Skr.", "Status"};
 
                 nj.tableModel = new MyTableModel(col, 0);
 
@@ -288,14 +307,16 @@ public class ElevListerView extends javax.swing.JFrame {
                 });
 
                 nj.setVisible(true);
+                
+                nj.setWorkflowButtonState(null);
 
             }
         });
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
+    private javax.swing.JButton buttonWorkflow;
     private javax.swing.JButton hentKlasseData;
-    private javax.swing.JButton jButton1;
     private javax.swing.JLabel jLabel1;
     private javax.swing.JScrollPane jScrollPane2;
     private javax.swing.JTable klasseListeTabel;
