@@ -5,9 +5,6 @@
  */
 package javaapplicationhtmlunit.views;
 
-import java.awt.Color;
-import java.util.Arrays;
-import java.util.List;
 import javax.swing.table.DefaultTableModel;
 
 /**
@@ -30,6 +27,12 @@ public class MyTableModel extends DefaultTableModel{
         }
            
         }
+        
+        
+    @Override
+      public boolean isCellEditable(int row, int column){  
+          return false;  
+      }
         /*
          List<Color> rowColours = Arrays.asList(
         Color.RED,

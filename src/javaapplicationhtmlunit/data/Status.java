@@ -11,6 +11,12 @@ package javaapplicationhtmlunit.data;
  */
 public interface Status {
     
-    public String getStatus();
+    public String getStatus(ElevData elevdata);
+    
+    public boolean workflowNotInProgress(ElevData elevdata);
+    
+    public String getStatusDialogText(ElevData elevData);
+    
+    public Status proceedStatus(boolean proceed, ElevData elevData);
     
 }

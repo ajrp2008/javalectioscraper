@@ -5,6 +5,8 @@
  */
 package javaapplicationhtmlunit.data;
 
+import java.text.SimpleDateFormat;
+
 /**
  *
  * @author andersjuulr.petersen
@@ -12,8 +14,24 @@ package javaapplicationhtmlunit.data;
 public class StatusFirstTalkAlm implements Status{
 
     @Override
-    public String getStatus() {
-        return "indkaldt til samtale pga. fysisk fravær";
+    public String getStatus(ElevData elevdata) {
+        SimpleDateFormat dt1 = new SimpleDateFormat("dd/MM-yy");
+        return "Kritisk alm. fravær d." + dt1.format(elevdata.tid);
+    }
+
+    @Override
+    public String getStatusDialogText(ElevData elevdata) {
+        return "Indkald " + elevdata.navn + " til samtale om for stort fysisk fravær?";
+    }
+
+    @Override
+    public Status proceedStatus(boolean proceed, ElevData elevdata) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
+    }
+
+    @Override
+    public boolean workflowNotInProgress(ElevData elevdata) {
+        throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
     
 }

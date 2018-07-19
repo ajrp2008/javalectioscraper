@@ -5,11 +5,15 @@
  */
 package javaapplicationhtmlunit.views;
 
+import com.gargoylesoftware.htmlunit.ElementNotFoundException;
 import javaapplicationhtmlunit.htmlUnitUtils.ElevListerHtmlUnit;
 import java.awt.Color;
 import java.awt.Component;
+import java.text.ParseException;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 import javaapplicationhtmlunit.data.ElevData;
-import javaapplicationhtmlunit.data.StatusNone;
+import javax.swing.JOptionPane;
 import javax.swing.JTable;
 import javax.swing.SwingUtilities;
 import javax.swing.table.DefaultTableCellRenderer;
@@ -23,6 +27,9 @@ public class ElevListerView extends javax.swing.JFrame {
 
     DefaultTableModel tableModel;
     private static ElevListerHtmlUnit elevListerHtmlUnit;
+    
+    private static ElevData selectedElev;
+    private static int selectedRow;
 
     /**
      * Creates new form NewJFrame
@@ -82,6 +89,7 @@ public class ElevListerView extends javax.swing.JFrame {
         jScrollPane2.setViewportView(klasseListeTabel);
 
         jLabel1.setText("Data mangler - hent venligst data");
+        jLabel1.setVerticalAlignment(javax.swing.SwingConstants.TOP);
 
         seKritiskButton.setText("Vis kritiske");
         seKritiskButton.addActionListener(new java.awt.event.ActionListener() {
@@ -97,7 +105,12 @@ public class ElevListerView extends javax.swing.JFrame {
             }
         });
 
-        buttonWorkflow.setText("Procedure step! ");
+        buttonWorkflow.setText("-");
+        buttonWorkflow.addActionListener(new java.awt.event.ActionListener() {
+            public void actionPerformed(java.awt.event.ActionEvent evt) {
+                buttonWorkflowActionPerformed(evt);
+            }
+        });
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
@@ -116,7 +129,7 @@ public class ElevListerView extends javax.swing.JFrame {
                         .addComponent(seAlleButton)
                         .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
                         .addComponent(seKritiskButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 306, Short.MAX_VALUE)
+                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 376, Short.MAX_VALUE)
                         .addComponent(buttonWorkflow)))
                 .addContainerGap())
         );
@@ -130,9 +143,9 @@ public class ElevListerView extends javax.swing.JFrame {
                     .addComponent(seAlleButton)
                     .addComponent(buttonWorkflow))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jLabel1, javax.swing.GroupLayout.PREFERRED_SIZE, 29, javax.swing.GroupLayout.PREFERRED_SIZE)
-                .addGap(23, 23, 23)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.DEFAULT_SIZE, 340, Short.MAX_VALUE)
+                .addComponent(jLabel1, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)
+                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -141,7 +154,7 @@ public class ElevListerView extends javax.swing.JFrame {
 
     private void hentKlasseDataActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_hentKlasseDataActionPerformed
         
-        
+        setWorkflowButtonState(null);
         
         hentKlasseData.setEnabled(false);
         jLabel1.setText("forbinder til Lectio.dk vent veligst ...");
@@ -152,18 +165,24 @@ public class ElevListerView extends javax.swing.JFrame {
 
         SwingUtilities.invokeLater(new Runnable() {
             public void run() {
-                jLabel1.setText("data hentet");
+                try {
+                    jLabel1.setText("data hentet");
+                    
+                    elevListerHtmlUnit = new ElevListerHtmlUnit();
+                    elevListerHtmlUnit.getElevDataList();
+                    
+                    int row = 0;
+                    for (ElevData ed : elevListerHtmlUnit.elevArrayListe) {
+                        Object[] rowList = {ed.navn, ed.almF, ed.skrF, ed.getStatus()};
+                        tableModel.addRow(rowList);
+                    }
+                    
+                    hentKlasseData.setEnabled(true);
+                } catch (NumberFormatException | ElementNotFoundException | SecurityException | ParseException ex) {
+                    Logger.getLogger(ElevListerView.class.getName()).log(Level.SEVERE, null, ex);
+                    jLabel1.setText("forbindelses fejl");
 
-                elevListerHtmlUnit = new ElevListerHtmlUnit();
-                elevListerHtmlUnit.getElevDataList();
-
-                int row = 0;
-                for (ElevData ed : elevListerHtmlUnit.elevArrayListe) {
-                    Object[] rowList = {ed.navn, ed.almF, ed.skrF, ed.status.getStatus()};
-                    tableModel.addRow(rowList);
                 }
-
-                hentKlasseData.setEnabled(true);
             }
         });
 
@@ -171,8 +190,12 @@ public class ElevListerView extends javax.swing.JFrame {
     }//GEN-LAST:event_hentKlasseDataActionPerformed
 
     private void seKritiskButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seKritiskButtonActionPerformed
+        
+        setWorkflowButtonState(null);
+
+        
         if (elevListerHtmlUnit != null) {
-            jLabel1.setText("Data vises for elever mere end 10% fravær 15% skriftligt");
+            jLabel1.setText("Data vises for elever mere end 10% fravær eller 15% skriftligt");
         }
 
         while (tableModel.getRowCount() > 0) {
@@ -182,9 +205,8 @@ public class ElevListerView extends javax.swing.JFrame {
         int row = 0;
         for (ElevData ed : elevListerHtmlUnit.elevArrayListe) {
             if (ed.almF > 10.0 || ed.skrF > 15.0) {
-                Object[] rowList = {ed.navn, ed.almF, ed.skrF, ed.status.getStatus()};
+                Object[] rowList = {ed.navn, ed.almF, ed.skrF, ed.getStatus()};
                 tableModel.addRow(rowList);
-                //this.klasseListeTabel.setBackground(Color.red);
             }
         }
 
@@ -192,6 +214,9 @@ public class ElevListerView extends javax.swing.JFrame {
 
     private void seAlleButtonActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_seAlleButtonActionPerformed
 
+        setWorkflowButtonState(null);
+
+        
         if (elevListerHtmlUnit != null) {
             jLabel1.setText("Data vises for alle elever");
         }
@@ -202,7 +227,7 @@ public class ElevListerView extends javax.swing.JFrame {
 
         int row = 0;
         for (ElevData ed : elevListerHtmlUnit.elevArrayListe) {
-            Object[] rowList = {ed.navn, ed.almF, ed.skrF, ed.status.getStatus()};
+            Object[] rowList = {ed.navn, ed.almF, ed.skrF, ed.getStatus()};
             tableModel.addRow(rowList);
         }
     }//GEN-LAST:event_seAlleButtonActionPerformed
@@ -214,6 +239,23 @@ public class ElevListerView extends javax.swing.JFrame {
     private void klasseListeTabelKeyReleased(java.awt.event.KeyEvent evt) {//GEN-FIRST:event_klasseListeTabelKeyReleased
         handleRowSelection();
     }//GEN-LAST:event_klasseListeTabelKeyReleased
+    
+    private void buttonWorkflowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonWorkflowActionPerformed
+       int input = JOptionPane.showConfirmDialog(
+                null, 
+                selectedElev.getWorkflowDialogText(), 
+                "Fraværs Workflow", 
+                JOptionPane.OK_CANCEL_OPTION, 
+                JOptionPane.PLAIN_MESSAGE, 
+                null);
+       System.out.println(input);
+       if(input == 0){
+           selectedElev.proceedWorkflow(true);
+       }
+       
+        updateRow(selectedRow, selectedElev);
+       
+    }//GEN-LAST:event_buttonWorkflowActionPerformed
 
     private void handleRowSelection() {
         int row = this.klasseListeTabel.getSelectedRow();
@@ -222,24 +264,34 @@ public class ElevListerView extends javax.swing.JFrame {
 
         ElevData elev = elevListerHtmlUnit.getElevFromName(navn);
         
-        jLabel1.setText("<html> NAVN:   " + elev.navn + "<br>STATUS: " + elev.status + "</html>" );
+        selectedElev    = elev;
+        selectedRow     = row;
+        
+        jLabel1.setText(
+                "<html> NAVN:   " + elev.navn + 
+              //  "<br>FRAVÆR: " + ((elev.almF > 10 || elev.skrF > 15) ? (elev.status instanceof StatusNone ? "KRITISK - START WORKFLOW!" : "KRITISK") : "ok" ) +
+                "<br>STATUS: " + elev.getStatus() + 
+                "</html>" );
         
         setWorkflowButtonState(elev);       
         
     }
     
+    private void updateRow(int row, ElevData elev){
+        this.klasseListeTabel.setValueAt(elev.getStatus(), row, 3);
+    }
+    
+    
     private void setWorkflowButtonState(ElevData elev){
 
-        if(elev != null && (elev.status instanceof StatusNone) && (elev.almF > 10 || elev.skrF > 15)){
-            this.buttonWorkflow.setText("Start Workflow!");
+        if(elev != null && elev.isWorkflowInProgress() && (elev.almF > 10 || elev.skrF > 15)){
+            this.buttonWorkflow.setText("Update Workflow!");
             this.buttonWorkflow.setEnabled(true);
         }else{
             this.buttonWorkflow.setText("status ok");
             this.buttonWorkflow.setEnabled(false);
         }
     }
-    
-    
     
 
     /**
@@ -285,6 +337,10 @@ public class ElevListerView extends javax.swing.JFrame {
                 nj.klasseListeTabel.getColumnModel().getColumn(0).setMinWidth(200);
                 nj.klasseListeTabel.getColumnModel().getColumn(0).setPreferredWidth(200);
 
+                nj.klasseListeTabel.getColumnModel().getColumn(3).setMinWidth(200);
+                nj.klasseListeTabel.getColumnModel().getColumn(3).setPreferredWidth(200);
+
+                
                 nj.klasseListeTabel.setDefaultRenderer(Object.class, new DefaultTableCellRenderer() {
                     @Override
                     public Component getTableCellRendererComponent(JTable table, Object value, boolean isSelected, boolean hasFocus, int row, int column) {
@@ -296,6 +352,8 @@ public class ElevListerView extends javax.swing.JFrame {
 
                             if (e.almF > 10 && e.skrF > 15) {
                                 c.setBackground(Color.RED);
+                            }else if(e.almF> 10 || e.skrF >15){
+                                c.setBackground(Color.pink);
                             } else {
                                 c.setBackground(Color.LIGHT_GRAY);
 
