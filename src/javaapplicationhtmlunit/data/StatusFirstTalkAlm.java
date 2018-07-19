@@ -9,6 +9,11 @@ package javaapplicationhtmlunit.data;
  *
  * @author andersjuulr.petersen
  */
-public class StatusFirstTalkAlm {
+public class StatusFirstTalkAlm implements Status{
+
+    @Override
+    public String getStatus() {
+        return "indkaldt til samtale pga. fysisk fravær";
+    }
     
 }

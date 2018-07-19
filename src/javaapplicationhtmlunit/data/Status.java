@@ -9,11 +9,8 @@ package javaapplicationhtmlunit.data;
  *
  * @author andersjuulr.petersen
  */
-public class StatusFirstTalkSkr implements Status{
-
-    @Override
-    public String getStatus() {
-        return "indkaldt til samtale pga. skriftligt fravær";
-    }
+public interface Status {
+    
+    public String getStatus();
     
 }

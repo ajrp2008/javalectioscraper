@@ -20,7 +20,7 @@ public class ElevData {
     public int timerF       = 0;
     public int timerIAlt    = 0;
     public String status    = StatusOk;
-
+    
     public ElevData(String navn, double almF, double skrF, int timerF, int timerIAlt){
         this.navn       = navn;
         this.almF       = almF;
