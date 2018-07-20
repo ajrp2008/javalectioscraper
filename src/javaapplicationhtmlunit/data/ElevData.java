@@ -5,6 +5,8 @@
  */
 package javaapplicationhtmlunit.data;
 
+import javaapplicationhtmlunit.data.workflow.StatusNone;
+import javaapplicationhtmlunit.data.workflow.Status;
 import java.util.Date;
 
 /**

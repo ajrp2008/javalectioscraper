@@ -3,7 +3,9 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package javaapplicationhtmlunit.data;
+package javaapplicationhtmlunit.data.workflow;
+
+import javaapplicationhtmlunit.data.ElevData;
 
 /**
  *

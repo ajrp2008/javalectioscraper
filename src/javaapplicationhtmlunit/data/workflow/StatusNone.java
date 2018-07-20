@@ -3,9 +3,10 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package javaapplicationhtmlunit.data;
+package javaapplicationhtmlunit.data.workflow;
 
-import utils.GlobalSettingsUtil;
+import javaapplicationhtmlunit.data.ElevData;
+import utils.Utils;
 
 /**
  *
@@ -26,17 +27,15 @@ public class StatusNone implements Status{
     @Override
     public Status proceedStatus(boolean proceed, ElevData elevdata) {
         Status newStatus = this;
-        
         if(proceed){
-            if(elevdata.almF > GlobalSettingsUtil.MaxAlmF && elevdata.skrF > GlobalSettingsUtil.MaxSkrF ){
+            if(Utils.kritiskAlmFSkrF(elevdata)){
                 newStatus = new StatusWfStartedAlmAndSkr();
-            }else if(elevdata.almF > GlobalSettingsUtil.MaxAlmF){
+            }else if(Utils.kritiskAlmF(elevdata)){
                 newStatus = new StatusWfStartedAlm();
             }else{
                 newStatus = new StatusWfStartedSkr();
             }                        
         }
-        
         return newStatus;
     }
 

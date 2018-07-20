@@ -3,25 +3,27 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package javaapplicationhtmlunit.data;
+package javaapplicationhtmlunit.data.workflow;
 
 import java.text.SimpleDateFormat;
+import javaapplicationhtmlunit.data.ElevData;
+import javaapplicationhtmlunit.data.workflow.Status;
 
 /**
  *
  * @author andersjuulr.petersen
  */
-public class StatusWfStartedSkr implements Status{
+public class StatusWfStartedAlm implements Status{
 
     @Override
     public String getStatus(ElevData elevdata) {
-        SimpleDateFormat dt1 = new SimpleDateFormat("yyyyy-mm-dd");
-        return "Kritisk skr. fravær d." + dt1.format(elevdata.tid);
+        SimpleDateFormat dt1 = new SimpleDateFormat("dd/MM-yy");
+        return "Kritisk alm. fravær d." + dt1.format(elevdata.tid);
     }
 
     @Override
     public String getStatusDialogText(ElevData elevdata) {
-        return "<html>"+ elevdata.navn + "<br>Indkaldes til samtale pga. stort skirftligt fravær?</html>";
+        return "<html>" + elevdata.navn + "<br>Indkaldes til samtale pga. stort fysisk fravær?</html>";
     }
 
     @Override
@@ -36,6 +38,7 @@ public class StatusWfStartedSkr implements Status{
 
     @Override
     public String getInfo(ElevData elevdata) {
-        return "<html><br>Dette step &nbsp;(1): For højt skr. fraværd registreret.<br> Næste step (2): Indkaldelse til samtale om forbedrings deadline & Mails til centraladministrationen</html>"; //To change body of generated methods, choose Tools | Templates.
+        return "<html><br>Dette step &nbsp;(1): For højt alm. fraværd registreret.<br> Næste step (2): Indkaldelse til samtale om forbedrings deadline & Mails til centraladministrationen</html>"; //To change body of generated methods, choose Tools | Templates.
     }
+    
 }

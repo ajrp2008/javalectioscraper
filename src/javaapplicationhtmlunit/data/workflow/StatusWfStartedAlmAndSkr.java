@@ -3,9 +3,11 @@
  * To change this template file, choose Tools | Templates
  * and open the template in the editor.
  */
-package javaapplicationhtmlunit.data;
+package javaapplicationhtmlunit.data.workflow;
 
 import java.text.SimpleDateFormat;
+import javaapplicationhtmlunit.data.ElevData;
+import javaapplicationhtmlunit.data.workflow.Status;
 
 /**
  *
