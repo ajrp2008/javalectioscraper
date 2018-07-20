@@ -254,7 +254,7 @@ public class ElevListerView extends javax.swing.JFrame {
        }
        
         updateRow(selectedRow, selectedElev);
-       
+        updateInfoLabel(selectedElev);
     }//GEN-LAST:event_buttonWorkflowActionPerformed
 
     private void handleRowSelection() {
@@ -267,14 +267,18 @@ public class ElevListerView extends javax.swing.JFrame {
         selectedElev    = elev;
         selectedRow     = row;
         
-        jLabel1.setText(
-                "<html> NAVN:   " + elev.navn + 
-              //  "<br>FRAVÆR: " + ((elev.almF > 10 || elev.skrF > 15) ? (elev.status instanceof StatusNone ? "KRITISK - START WORKFLOW!" : "KRITISK") : "ok" ) +
-                "<br>STATUS: " + elev.getStatus() + 
-                "</html>" );
+        updateInfoLabel(elev);
         
         setWorkflowButtonState(elev);       
         
+    }
+
+    private void updateInfoLabel(ElevData elev) {
+        jLabel1.setText(
+                "<html> NAVN:   " + elev.navn +
+                        //  "<br>FRAVÆR: " + ((elev.almF > 10 || elev.skrF > 15) ? (elev.status instanceof StatusNone ? "KRITISK - START WORKFLOW!" : "KRITISK") : "ok" ) +
+                        "<br><br>INFO: " + elev.getInfo() +
+                        "</html>" );
     }
     
     private void updateRow(int row, ElevData elev){

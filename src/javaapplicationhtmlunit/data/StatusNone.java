@@ -20,7 +20,7 @@ public class StatusNone implements Status{
 
     @Override
     public String getStatusDialogText(ElevData elevdata) {
-        return "Start fraværdsworkflow for " + elevdata.navn + "?";
+        return "<html>" + elevdata.navn + "<br>Start workflow?</html>";
     }
 
     @Override
@@ -29,11 +29,11 @@ public class StatusNone implements Status{
         
         if(proceed){
             if(elevdata.almF > GlobalSettingsUtil.MaxAlmF && elevdata.skrF > GlobalSettingsUtil.MaxSkrF ){
-                newStatus = new StatusFirstTalkAlmAndSkr();
+                newStatus = new StatusWfStartedAlmAndSkr();
             }else if(elevdata.almF > GlobalSettingsUtil.MaxAlmF){
-                newStatus = new StatusFirstTalkAlm();
+                newStatus = new StatusWfStartedAlm();
             }else{
-                newStatus = new StatusFirstTalkSkr();
+                newStatus = new StatusWfStartedSkr();
             }                        
         }
         
@@ -43,5 +43,10 @@ public class StatusNone implements Status{
     @Override
     public boolean workflowNotInProgress(ElevData elevdata) {
         return true;
+    }
+
+    @Override
+    public String getInfo(ElevData elevdata) {
+        return "<br>Intet workflow er startet";
     }
 }

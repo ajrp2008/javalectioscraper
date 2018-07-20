@@ -11,6 +11,8 @@ package javaapplicationhtmlunit.data;
  */
 public interface Status {
     
+    public String getInfo(ElevData elevdata);
+    
     public String getStatus(ElevData elevdata);
     
     public boolean workflowNotInProgress(ElevData elevdata);

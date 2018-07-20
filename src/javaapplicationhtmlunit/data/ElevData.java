@@ -47,5 +47,9 @@ public class ElevData {
         return status.workflowNotInProgress(this);
     }
     
+    public String getInfo(){
+        return status.getInfo(this);
+    }
+    
 }
 

@@ -11,17 +11,17 @@ import java.text.SimpleDateFormat;
  *
  * @author andersjuulr.petersen
  */
-public class StatusFirstTalkAlmAndSkr implements Status{
+public class StatusWfStartedAlm implements Status{
 
     @Override
     public String getStatus(ElevData elevdata) {
-         SimpleDateFormat dt1 = new SimpleDateFormat("dd/MM-yy");
-        return "Kritisk alm./skr. fravær d." + dt1.format(elevdata.tid);
-   }
+        SimpleDateFormat dt1 = new SimpleDateFormat("dd/MM-yy");
+        return "Kritisk alm. fravær d." + dt1.format(elevdata.tid);
+    }
 
     @Override
     public String getStatusDialogText(ElevData elevdata) {
-        return "Indkald " + elevdata.navn + " til samtale om for stort fysisk og skirftligt fravær?";
+        return "<html>" + elevdata.navn + "<br>Indkaldes til samtale pga. stort fysisk fravær?</html>";
     }
 
     @Override
@@ -33,4 +33,10 @@ public class StatusFirstTalkAlmAndSkr implements Status{
     public boolean workflowNotInProgress(ElevData elevdata) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
+
+    @Override
+    public String getInfo(ElevData elevdata) {
+        return "<html><br>Dette step &nbsp;(1): For højt alm. fraværd registreret.<br> Næste step (2): Indkaldelse til samtale om forbedrings deadline & Mails til centraladministrationen</html>"; //To change body of generated methods, choose Tools | Templates.
+    }
+    
 }
