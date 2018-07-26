@@ -7,27 +7,27 @@ package javaapplicationhtmlunit.data.workflow;
 
 import java.text.SimpleDateFormat;
 import javaapplicationhtmlunit.data.ElevData;
-import javaapplicationhtmlunit.data.workflow.State;
 
 /**
  *
  * @author andersjuulr.petersen
  */
-public class StateWfStartedSkr implements State{
+public class StateWfFirstMeetingAlm implements State{
 
     @Override
     public String getState(ElevData elevdata) {
-        SimpleDateFormat dt1 = new SimpleDateFormat("yyyyy-mm-dd");
-        return "Kritisk skr. fravær d." + dt1.format(elevdata.tid);
+        SimpleDateFormat dt1 = new SimpleDateFormat("dd/MM-yy");
+        return "Kritisk alm. fravær d." + dt1.format(elevdata.tid);
     }
 
     @Override
     public String getStateDialogText(ElevData elevdata) {
-        return "<html>"+ elevdata.navn + "<br>Indkaldes til samtale pga. stort skirftligt fravær?</html>";
+        return "<html>" + elevdata.navn + "<br>Indkaldes til samtale pga. stort fysisk fravær?</html>";
     }
 
     @Override
     public State moveToNextState(boolean proceed, ElevData elevdata) {
+        //Indkalder til møde        
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -38,6 +38,7 @@ public class StateWfStartedSkr implements State{
 
     @Override
     public String getInfo(ElevData elevdata) {
-        return "<html><br>Dette step &nbsp;(1): For højt skr. fraværd registreret.<br> Næste step (2): Indkaldelse til samtale om forbedrings deadline & Mails til centraladministrationen</html>"; //To change body of generated methods, choose Tools | Templates.
+        return "<html><br>Dette step &nbsp;(1): For højt alm. fraværd registreret.<br> Næste step (2): Indkaldelse til samtale om forbedrings deadline & Mails til centraladministrationen</html>"; //To change body of generated methods, choose Tools | Templates.
     }
+    
 }

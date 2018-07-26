@@ -29,11 +29,11 @@ public class StateNone implements State{
         State newState = this;
         if(proceed){
             if(Utils.kritiskAlmFSkrF(elevdata)){
-                newState = new StateWfStartedAlmAndSkr();
+                newState = new StateWfFirstMeetingAlmAndSkr();
             }else if(Utils.kritiskAlmF(elevdata)){
-                newState = new StateWfStartedAlm();
+                newState = new StateWfFirstMeetingAlm();
             }else{
-                newState = new StateWfStartedSkr();
+                newState = new StateWfFirstMeetingSkr();
             }                        
         }
         return newState;

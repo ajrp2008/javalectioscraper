@@ -7,23 +7,22 @@ package javaapplicationhtmlunit.data.workflow;
 
 import java.text.SimpleDateFormat;
 import javaapplicationhtmlunit.data.ElevData;
-import javaapplicationhtmlunit.data.workflow.State;
 
 /**
  *
  * @author andersjuulr.petersen
  */
-public class StateWfStartedAlm implements State{
+public class StateWfFirstMeetingAlmAndSkr implements State{
 
     @Override
     public String getState(ElevData elevdata) {
-        SimpleDateFormat dt1 = new SimpleDateFormat("dd/MM-yy");
-        return "Kritisk alm. fravær d." + dt1.format(elevdata.tid);
-    }
+         SimpleDateFormat dt1 = new SimpleDateFormat("dd/MM-yy");
+        return "Kritisk alm./skr. fravær d." + dt1.format(elevdata.tid);
+   }
 
     @Override
     public String getStateDialogText(ElevData elevdata) {
-        return "<html>" + elevdata.navn + "<br>Indkaldes til samtale pga. stort fysisk fravær?</html>";
+        return "<html>" + elevdata.navn + "<br>Indkaldes til samtale pga. stort fysisk og skirftligt fravær?</html>";
     }
 
     @Override
@@ -38,7 +37,6 @@ public class StateWfStartedAlm implements State{
 
     @Override
     public String getInfo(ElevData elevdata) {
-        return "<html><br>Dette step &nbsp;(1): For højt alm. fraværd registreret.<br> Næste step (2): Indkaldelse til samtale om forbedrings deadline & Mails til centraladministrationen</html>"; //To change body of generated methods, choose Tools | Templates.
+        return "<html><br>Dette step &nbsp;(1): For højt alm./skr. fraværd registreret.<br> Næste step (2): Indkaldelse til samtale om forbedrings deadline & Mails til centraladministrationen</html>"; //To change body of generated methods, choose Tools | Templates.
     }
-    
 }
