@@ -11,16 +11,16 @@ import javaapplicationhtmlunit.data.ElevData;
  *
  * @author andersjuulr.petersen
  */
-public interface Status {
+public interface State {
     
     public String getInfo(ElevData elevdata);
     
-    public String getStatus(ElevData elevdata);
+    public String getState(ElevData elevdata);
     
     public boolean workflowNotInProgress(ElevData elevdata);
     
-    public String getStatusDialogText(ElevData elevData);
+    public String getStateDialogText(ElevData elevData);
     
-    public Status proceedStatus(boolean proceed, ElevData elevData);
+    public State moveToNextState(boolean proceed, ElevData elevData);
     
 }

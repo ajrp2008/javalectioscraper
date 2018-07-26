@@ -12,31 +12,31 @@ import utils.Utils;
  *
  * @author andersjuulr.petersen
  */
-public class StatusNone implements Status{
+public class StateNone implements State{
 
     @Override
-    public String getStatus(ElevData elevdata) {
+    public String getState(ElevData elevdata) {
         return "-";
     }
 
     @Override
-    public String getStatusDialogText(ElevData elevdata) {
+    public String getStateDialogText(ElevData elevdata) {
         return "<html>" + elevdata.navn + "<br>Start workflow?</html>";
     }
 
     @Override
-    public Status proceedStatus(boolean proceed, ElevData elevdata) {
-        Status newStatus = this;
+    public State moveToNextState(boolean proceed, ElevData elevdata) {
+        State newState = this;
         if(proceed){
             if(Utils.kritiskAlmFSkrF(elevdata)){
-                newStatus = new StatusWfStartedAlmAndSkr();
+                newState = new StateWfStartedAlmAndSkr();
             }else if(Utils.kritiskAlmF(elevdata)){
-                newStatus = new StatusWfStartedAlm();
+                newState = new StateWfStartedAlm();
             }else{
-                newStatus = new StatusWfStartedSkr();
+                newState = new StateWfStartedSkr();
             }                        
         }
-        return newStatus;
+        return newState;
     }
 
     @Override

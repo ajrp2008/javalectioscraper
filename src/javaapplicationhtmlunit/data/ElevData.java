@@ -5,9 +5,9 @@
  */
 package javaapplicationhtmlunit.data;
 
-import javaapplicationhtmlunit.data.workflow.StatusNone;
-import javaapplicationhtmlunit.data.workflow.Status;
+import javaapplicationhtmlunit.data.workflow.StateNone;
 import java.util.Date;
+import javaapplicationhtmlunit.data.workflow.State;
 
 /**
  *
@@ -22,7 +22,7 @@ public class ElevData {
     public int timerIAlt    = 0;
     public Date tid         = null;
         
-    public Status status    = new StatusNone();
+    public State state    = new StateNone();
     
     public ElevData(String navn, double almF, double skrF, int timerF, int timerIAlt, Date tid){
         this.navn       = navn;
@@ -34,23 +34,23 @@ public class ElevData {
     }
     
     public String getStatus(){
-        return this.status.getStatus(this);
+        return this.state.getState(this);
     }
     
     public String getWorkflowDialogText(){
-        return this.status.getStatusDialogText(this);
+        return this.state.getStateDialogText(this);
     }
     
     public void proceedWorkflow(boolean proceed){
-        this.status = this.status.proceedStatus(proceed, this);
+        this.state = this.state.moveToNextState(proceed, this);
     }
     
     public boolean isWorkflowInProgress(){
-        return status.workflowNotInProgress(this);
+        return state.workflowNotInProgress(this);
     }
     
     public String getInfo(){
-        return status.getInfo(this);
+        return state.getInfo(this);
     }
     
 }

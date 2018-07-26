@@ -7,27 +7,27 @@ package javaapplicationhtmlunit.data.workflow;
 
 import java.text.SimpleDateFormat;
 import javaapplicationhtmlunit.data.ElevData;
-import javaapplicationhtmlunit.data.workflow.Status;
+import javaapplicationhtmlunit.data.workflow.State;
 
 /**
  *
  * @author andersjuulr.petersen
  */
-public class StatusWfStartedAlm implements Status{
+public class StateWfStartedAlmAndSkr implements State{
 
     @Override
-    public String getStatus(ElevData elevdata) {
-        SimpleDateFormat dt1 = new SimpleDateFormat("dd/MM-yy");
-        return "Kritisk alm. fravær d." + dt1.format(elevdata.tid);
+    public String getState(ElevData elevdata) {
+         SimpleDateFormat dt1 = new SimpleDateFormat("dd/MM-yy");
+        return "Kritisk alm./skr. fravær d." + dt1.format(elevdata.tid);
+   }
+
+    @Override
+    public String getStateDialogText(ElevData elevdata) {
+        return "<html>" + elevdata.navn + "<br>Indkaldes til samtale pga. stort fysisk og skirftligt fravær?</html>";
     }
 
     @Override
-    public String getStatusDialogText(ElevData elevdata) {
-        return "<html>" + elevdata.navn + "<br>Indkaldes til samtale pga. stort fysisk fravær?</html>";
-    }
-
-    @Override
-    public Status proceedStatus(boolean proceed, ElevData elevdata) {
+    public State moveToNextState(boolean proceed, ElevData elevdata) {
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }
 
@@ -38,7 +38,6 @@ public class StatusWfStartedAlm implements Status{
 
     @Override
     public String getInfo(ElevData elevdata) {
-        return "<html><br>Dette step &nbsp;(1): For højt alm. fraværd registreret.<br> Næste step (2): Indkaldelse til samtale om forbedrings deadline & Mails til centraladministrationen</html>"; //To change body of generated methods, choose Tools | Templates.
+        return "<html><br>Dette step &nbsp;(1): For højt alm./skr. fraværd registreret.<br> Næste step (2): Indkaldelse til samtale om forbedrings deadline & Mails til centraladministrationen</html>"; //To change body of generated methods, choose Tools | Templates.
     }
-    
 }
