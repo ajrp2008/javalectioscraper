@@ -5,7 +5,7 @@
  */
 package javaapplicationhtmlunit.data;
 
-import javaapplicationhtmlunit.data.workflow.StateNone;
+import javaapplicationhtmlunit.data.workflow.StateStart;
 import java.util.Date;
 import javaapplicationhtmlunit.data.workflow.State;
 
@@ -22,7 +22,7 @@ public class ElevData {
     public int timerIAlt    = 0;
     public Date tid         = null;
         
-    public State state    = new StateNone();
+    public State state    = new StateStart();
     
     public ElevData(String navn, double almF, double skrF, int timerF, int timerIAlt, Date tid){
         this.navn       = navn;

@@ -12,7 +12,7 @@ import utils.Utils;
  *
  * @author andersjuulr.petersen
  */
-public class StateNone implements State{
+public class StateStart implements State{
 
     @Override
     public String getState(ElevData elevdata) {
@@ -29,11 +29,11 @@ public class StateNone implements State{
         State newState = this;
         if(proceed){
             if(Utils.kritiskAlmFSkrF(elevdata)){
-                newState = new StateWfFirstMeetingAlmAndSkr();
+                newState = new StateAlmOgSkriftFRegisteredExcFirstMeeting();
             }else if(Utils.kritiskAlmF(elevdata)){
-                newState = new StateWfFirstMeetingAlm();
+                newState = new StateAlmFRegisteredExcFirstMeeting();
             }else{
-                newState = new StateWfFirstMeetingSkr();
+                newState = new StateSkriftFRegisteredExcFirstMeeting();
             }                        
         }
         return newState;

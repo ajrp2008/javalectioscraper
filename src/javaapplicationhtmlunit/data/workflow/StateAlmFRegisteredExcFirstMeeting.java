@@ -12,7 +12,7 @@ import javaapplicationhtmlunit.data.ElevData;
  *
  * @author andersjuulr.petersen
  */
-public class StateWfFirstMeetingAlm implements State{
+public class StateAlmFRegisteredExcFirstMeeting implements State{
 
     @Override
     public String getState(ElevData elevdata) {
