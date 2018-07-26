@@ -26,7 +26,7 @@ public class StateWfFirstMeetingAlm implements State{
     }
 
     @Override
-    public State moveToNextState(boolean proceed, ElevData elevdata) {
+    public State executeThisStateAndmoveToNextState(boolean proceed, ElevData elevdata) {
         //Indkalder til møde        
         throw new UnsupportedOperationException("Not supported yet."); //To change body of generated methods, choose Tools | Templates.
     }

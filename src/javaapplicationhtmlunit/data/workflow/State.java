@@ -21,6 +21,6 @@ public interface State {
     
     public String getStateDialogText(ElevData elevData);
     
-    public State moveToNextState(boolean proceed, ElevData elevData);
+    public State executeThisStateAndmoveToNextState(boolean proceed, ElevData elevData);
     
 }

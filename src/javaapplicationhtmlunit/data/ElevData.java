@@ -42,7 +42,7 @@ public class ElevData {
     }
     
     public void proceedWorkflow(boolean proceed){
-        this.state = this.state.moveToNextState(proceed, this);
+        this.state = this.state.executeThisStateAndmoveToNextState(proceed, this);
     }
     
     public boolean isWorkflowInProgress(){

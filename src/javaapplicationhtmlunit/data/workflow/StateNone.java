@@ -25,7 +25,7 @@ public class StateNone implements State{
     }
 
     @Override
-    public State moveToNextState(boolean proceed, ElevData elevdata) {
+    public State executeThisStateAndmoveToNextState(boolean proceed, ElevData elevdata) {
         State newState = this;
         if(proceed){
             if(Utils.kritiskAlmFSkrF(elevdata)){
