@@ -54,7 +54,8 @@ public class ElevListerView extends javax.swing.JFrame {
         infoLabel = new javax.swing.JLabel();
         seKritiskButton = new javax.swing.JButton();
         seAlleButton = new javax.swing.JButton();
-        buttonWorkflow = new javax.swing.JButton();
+        buttonUpdateWorkflow = new javax.swing.JButton();
+        buttonShowWorkflow = new javax.swing.JButton();
 
         setDefaultCloseOperation(javax.swing.WindowConstants.EXIT_ON_CLOSE);
 
@@ -106,32 +107,39 @@ public class ElevListerView extends javax.swing.JFrame {
             }
         });
 
-        buttonWorkflow.setText("-");
-        buttonWorkflow.addActionListener(new java.awt.event.ActionListener() {
+        buttonUpdateWorkflow.setText("Update workflow");
+        buttonUpdateWorkflow.addActionListener(new java.awt.event.ActionListener() {
             public void actionPerformed(java.awt.event.ActionEvent evt) {
-                buttonWorkflowActionPerformed(evt);
+                buttonUpdateWorkflowActionPerformed(evt);
             }
         });
+
+        buttonShowWorkflow.setText("Vis workflow");
 
         javax.swing.GroupLayout layout = new javax.swing.GroupLayout(getContentPane());
         getContentPane().setLayout(layout);
         layout.setHorizontalGroup(
             layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
-            .addGroup(layout.createSequentialGroup()
+            .addGroup(javax.swing.GroupLayout.Alignment.TRAILING, layout.createSequentialGroup()
                 .addContainerGap()
-                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.TRAILING)
                     .addComponent(jScrollPane2)
                     .addGroup(layout.createSequentialGroup()
-                        .addGap(6, 6, 6)
-                        .addComponent(infoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))
-                    .addGroup(layout.createSequentialGroup()
-                        .addComponent(hentKlasseData, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(seAlleButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                        .addComponent(seKritiskButton)
-                        .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED, 376, Short.MAX_VALUE)
-                        .addComponent(buttonWorkflow)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING)
+                            .addGroup(layout.createSequentialGroup()
+                                .addGap(0, 0, Short.MAX_VALUE)
+                                .addComponent(infoLabel, javax.swing.GroupLayout.PREFERRED_SIZE, 586, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addGap(33, 33, 33))
+                            .addGroup(layout.createSequentialGroup()
+                                .addComponent(hentKlasseData, javax.swing.GroupLayout.PREFERRED_SIZE, 111, javax.swing.GroupLayout.PREFERRED_SIZE)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(seAlleButton)
+                                .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
+                                .addComponent(seKritiskButton)
+                                .addGap(334, 334, 334)))
+                        .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.LEADING, false)
+                            .addComponent(buttonUpdateWorkflow, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE)
+                            .addComponent(buttonShowWorkflow, javax.swing.GroupLayout.DEFAULT_SIZE, javax.swing.GroupLayout.DEFAULT_SIZE, Short.MAX_VALUE))))
                 .addContainerGap())
         );
         layout.setVerticalGroup(
@@ -142,11 +150,13 @@ public class ElevListerView extends javax.swing.JFrame {
                     .addComponent(hentKlasseData)
                     .addComponent(seKritiskButton)
                     .addComponent(seAlleButton)
-                    .addComponent(buttonWorkflow))
+                    .addComponent(buttonUpdateWorkflow))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(infoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 77, Short.MAX_VALUE)
+                .addGroup(layout.createParallelGroup(javax.swing.GroupLayout.Alignment.BASELINE)
+                    .addComponent(infoLabel, javax.swing.GroupLayout.DEFAULT_SIZE, 101, Short.MAX_VALUE)
+                    .addComponent(buttonShowWorkflow))
                 .addPreferredGap(javax.swing.LayoutStyle.ComponentPlacement.RELATED)
-                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 309, javax.swing.GroupLayout.PREFERRED_SIZE)
+                .addComponent(jScrollPane2, javax.swing.GroupLayout.PREFERRED_SIZE, 546, javax.swing.GroupLayout.PREFERRED_SIZE)
                 .addContainerGap())
         );
 
@@ -220,7 +230,7 @@ public class ElevListerView extends javax.swing.JFrame {
         handleRowSelection();
     }//GEN-LAST:event_klasseListeTabelKeyReleased
     
-    private void buttonWorkflowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonWorkflowActionPerformed
+    private void buttonUpdateWorkflowActionPerformed(java.awt.event.ActionEvent evt) {//GEN-FIRST:event_buttonUpdateWorkflowActionPerformed
        int input = JOptionPane.showConfirmDialog(
                 null, 
                 selectedElev.getWorkflowDialogText(), 
@@ -235,7 +245,7 @@ public class ElevListerView extends javax.swing.JFrame {
        
         updateRow(selectedRow, selectedElev);
         updateInfoLabel(selectedElev);
-    }//GEN-LAST:event_buttonWorkflowActionPerformed
+    }//GEN-LAST:event_buttonUpdateWorkflowActionPerformed
 
     private void handleRowSelection() {
         int row = this.klasseListeTabel.getSelectedRow();
@@ -271,13 +281,14 @@ public class ElevListerView extends javax.swing.JFrame {
         
         if(elev != null){ 
             if(elev.isWorkflowInProgress() && Utils.kritiskSkrF(elev) || Utils.kritiskAlmF(elev)){
-                this.buttonWorkflow.setText("Update Workflow!");
-                this.buttonWorkflow.setEnabled(true);
-            }
-        }else{
-            this.buttonWorkflow.setText("status ok");
-            this.buttonWorkflow.setEnabled(false);
-        }
+                this.buttonUpdateWorkflow.setText("Update Workflow!");
+                this.buttonShowWorkflow.setEnabled(true);
+                this.buttonUpdateWorkflow.setEnabled(true);
+            }else{
+                this.buttonUpdateWorkflow.setText("Update Workflow!");
+                this.buttonShowWorkflow.setEnabled(false);
+                this.buttonUpdateWorkflow.setEnabled(false);
+        }}
     }
     
     public static void main(String args[]) {
@@ -357,7 +368,8 @@ public class ElevListerView extends javax.swing.JFrame {
     }
 
     // Variables declaration - do not modify//GEN-BEGIN:variables
-    private javax.swing.JButton buttonWorkflow;
+    private javax.swing.JButton buttonShowWorkflow;
+    private javax.swing.JButton buttonUpdateWorkflow;
     private javax.swing.JButton hentKlasseData;
     private javax.swing.JLabel infoLabel;
     private javax.swing.JScrollPane jScrollPane2;
