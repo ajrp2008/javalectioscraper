@@ -279,8 +279,8 @@ public class ElevListerView extends javax.swing.JFrame {
     private void setWorkflowButtonState(ElevData elev){
 
         
-        if(elev != null){ 
-            if(elev.isWorkflowInProgress() && Utils.kritiskSkrF(elev) || Utils.kritiskAlmF(elev)){
+       
+            if(Utils.isWorkflowInProgress(elev) && Utils.kritiskSkrF(elev) || Utils.kritiskAlmF(elev)){
                 this.buttonUpdateWorkflow.setText("Update Workflow!");
                 this.buttonShowWorkflow.setEnabled(true);
                 this.buttonUpdateWorkflow.setEnabled(true);
@@ -288,7 +288,7 @@ public class ElevListerView extends javax.swing.JFrame {
                 this.buttonUpdateWorkflow.setText("Update Workflow!");
                 this.buttonShowWorkflow.setEnabled(false);
                 this.buttonUpdateWorkflow.setEnabled(false);
-        }}
+            }
     }
     
     public static void main(String args[]) {

@@ -17,15 +17,30 @@ public class Utils {
     public static double MaxSkrF = 15;
     
     public static boolean kritiskAlmF(ElevData elevdata){
-        return elevdata.almF > MaxAlmF;
+        boolean kritisk = false;
+        if(elevdata != null){
+            kritisk = elevdata.almF > MaxAlmF;
+        }
+        return kritisk;
     }
     
     public static boolean kritiskSkrF(ElevData elevdata){
-        return elevdata.skrF > MaxSkrF;
+        boolean kritisk = false;
+        if(elevdata != null){
+            kritisk = elevdata.skrF > MaxSkrF;
+        }
+        return kritisk;
     }
     
     public static boolean kritiskAlmFSkrF(ElevData elevdata){
         return kritiskAlmF(elevdata)&&kritiskSkrF(elevdata);
     }
     
+    public static boolean isWorkflowInProgress(ElevData elevdata){
+        boolean inProgress = false;
+        if(elevdata!=null){
+            inProgress = elevdata.isWorkflowInProgress();
+        }
+        return inProgress;
+    }
 }
