@@ -49,7 +49,7 @@ public class ElevListerHtmlUnit {
             webClient.getOptions().setPrintContentOnFailingStatusCode(false);
             webClient.setCssErrorHandler(new SilentCssErrorHandler());
 
-            HtmlPage page = webClient.getPage("https://www.lectio.dk/lectio/681/login.aspx?prevurl=subnav%2ffravaergroup.aspx%3fklasseid%3d15789905483");
+            HtmlPage page = webClient.getPage("https://www.lectio.dk/lectio/681/subnav/fravaergroup.aspx?klasseid=15789905483");
             //https://www.lectio.dk/lectio/681/login.aspx
             //https://www.lectio.dk/lectio/681/login.aspx?prevurl=subnav%2ffravaergroup.aspx%3fklasseid%3d15789905483
             int i = 0;
@@ -82,8 +82,10 @@ public class ElevListerHtmlUnit {
 
             for (int e = 0; e < antalElever; e++) {
                 String navn = table.getCellAt(e + 3, 1).asText();
-                double almF = Double.parseDouble(table.getCellAt(e + 3, 2).asText().replace(",", ".").replace("%", ""));
-                double skrF = Double.parseDouble(table.getCellAt(e + 3, 8).asText().replace(",", ".").replace("%", ""));
+                String almFT = table.getCellAt(e + 3, 2).asText();
+                String skrFT = table.getCellAt(e + 3, 8).asText();
+                double almF = almFT.length() > 0 ? Double.parseDouble(skrFT.replace(",", ".").replace("%", "")): 0;
+                double skrF = skrFT.length() > 0 ? Double.parseDouble(skrFT.replace(",", ".").replace("%", "")) : 0;
                 // listElever[e][0] = navn;
                 // listElever[e][1] = almF;
                 // listElever[e][2] = skrF;
